@@ -1,0 +1,30 @@
+name: run lint script
+
+on: 
+  workflow_call:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix: 
+        context:
+          - frontend
+          - backend
+
+    steps:
+      - 
+        uses: actions/checkout@v3    
+      - 
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16.x'
+          cache: 'npm'
+          cache-dependency-path: ${{ matrix.context }}/package-lock.json
+      - 
+        name: run lint script
+        working-directory: ${{ matrix.context }}
+        run: |
+          npm install
+          npm run lint
