@@ -15,9 +15,9 @@ jobs:
           - backend
         include:
           - context: frontend
-            esconfig: standard
-          - context: backend
             esconfig: airbnb
+          - context: backend
+            esconfig: standard
 
     steps:
       - 
