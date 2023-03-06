@@ -16,28 +16,16 @@ jobs:
 
     steps:
       - 
-        uses: actions/checkout@v2      
+        uses: actions/checkout@v3    
       - 
         uses: actions/setup-node@v3
         with:
-          node-version: '16.x'      
-      # Get config from eslintrc
-      - 
-        id: eslintrc
-        working-directory: ./${{ matrix.context }}
-        run: |
-          esconfig=$(jq -r '.extends' .eslintrc)
-          echo "Found $esconfig"
-          echo "esconfig=$esconfig" >> $GITHUB_OUTPUT
-      -
-        name: Install dependencies
-        working-directory: ./${{ matrix.context }}
-        run: |
-          npm install
+          node-version: '16.x'
+          cache: 'npm'
+          cache-dependency-path: ${{ matrix.context }}/package-lock.json
       - 
         name: Run ESLint with recommended changes
-        working-directory: ./${{ matrix.context }}
-        run: npx eslint . --fix      
+        run: npx eslint ./${{ matrix.context }} --fix      
       - 
         name: Create PR
         id: create_pull_request
