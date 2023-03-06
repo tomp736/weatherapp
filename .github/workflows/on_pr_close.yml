@@ -17,6 +17,8 @@ jobs:
 
     steps:
       - 
+        uses: actions/checkout@v3
+      - 
         # Read the current version number from git ls-remote
         id: this_version
         shell: bash
