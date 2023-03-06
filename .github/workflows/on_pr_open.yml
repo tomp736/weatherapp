@@ -16,7 +16,8 @@ jobs:
   # run eslint scripts
   eslint:      
     uses: ./.github/workflows/on_wfc_npm_lint.yml
-
+    secrets: inherit
+    
   # run the docker_build workflow
   docker_build:
     needs:
