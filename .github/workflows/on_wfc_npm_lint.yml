@@ -3,6 +3,11 @@ name: run lint script
 on: 
   workflow_call:
     inputs:
+      autofix_pr_branch:
+        type: string
+        description: 'autofix pr branch'
+        required: false
+        default: 'autofix'
       autofix_pr:
         type: boolean
         description: 'autofix pr'
@@ -49,6 +54,6 @@ jobs:
         id: create_pull_request
         uses: peter-evans/create-pull-request@v4
         with:
-          title: ${{ matrix.context }}-lint
+          title: ${{ inputs.autofix_pr_branch }}-${{ matrix.context }}-lint
           token: ${{ secrets.WORKFLOW_TOKEN }}
-          branch: ${{ matrix.context }}-lint
+          branch: ${{ inputs.autofix_pr_branch }}-${{ matrix.context }}-lint

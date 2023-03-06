@@ -53,6 +53,7 @@ jobs:
   eslint:      
     uses: ./.github/workflows/on_wfc_npm_lint.yml
     with:
+      autofix_pr_branch: ${{ needs.prepare.outputs.pull_request_branch_source }}
       autofix_pr: true
     secrets: inherit
 
