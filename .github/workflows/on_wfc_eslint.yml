@@ -25,6 +25,7 @@ jobs:
           cache-dependency-path: ${{ matrix.context }}/package-lock.json
       - 
         name: Run ESLint with recommended changes
+        working-directory: ${{ matrix.context }}
         run: |
           npm install
           npx eslint ./${{ matrix.context }}/src/*.js --fix      
