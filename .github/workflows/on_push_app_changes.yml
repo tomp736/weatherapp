@@ -6,6 +6,7 @@ on:
       - '**'
       - '!*-promotion'
       - '!*-lint'
+      - '!*-audit'
 
 jobs:
 
@@ -51,7 +52,7 @@ jobs:
   
   # run eslint scripts
   eslint:      
-  
+
     needs:
       - prepare
     uses: ./.github/workflows/on_wfc_npm_lint.yml
