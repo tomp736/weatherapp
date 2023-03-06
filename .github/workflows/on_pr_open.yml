@@ -15,7 +15,7 @@ jobs:
 
   # run eslint scripts
   eslint:      
-    uses: ./.github/workflows/on_wfc_eslint.yml
+    uses: ./.github/workflows/on_wfc_npm_lint.yml
 
   # run the docker_build workflow
   docker_build:
