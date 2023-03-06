@@ -34,7 +34,7 @@ jobs:
         working-directory: ./${{ matrix.context }}
         run: |
           npm install eslint --global
-          npm init @eslint/config -- --config ${{ steps.eslintrc.outputs.esconfig }} -y          
+          # npm init @eslint/config -- --config ${{ steps.eslintrc.outputs.esconfig }} -y          
       - 
         name: Run ESLint with recommended changes
         working-directory: ./${{ matrix.context }}
