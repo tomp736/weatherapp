@@ -13,6 +13,11 @@ on:
         description: 'autofix pr'
         required: false
         default: false
+      autofix_breaking:
+        type: boolean
+        description: 'autofix breaking'
+        required: false
+        default: false
 
 jobs:
   audit:
@@ -35,22 +40,21 @@ jobs:
           cache-dependency-path: ${{ matrix.context }}/package-lock.json
       - 
         name: run audit
-        if: ${{ ! inputs.autofix_pr }}
         working-directory: ${{ matrix.context }}
         run: |
           npm install
-          npm audit
-      - 
-        name: run audit script
-        id: audit_autofix
-        if: ${{ inputs.autofix_pr }}
-        working-directory: ${{ matrix.context }}
-        run: |
-          npm install
-          npm audit fix
+          if [[ "${{ inputs.autofix_pr }}" = "true" ]]; then
+            if [[ "${{ inputs.autofix_breaking }}" = "true" ]]; then
+              npm audit fix --force
+            else
+              npm audit fix
+            fi
+          else
+            npm audit
+          fi
       - 
         name: create audit pr
-        if: failure() && steps.audit_autofix.outcome != 'success'
+        if: failure() && ${{ inputs.autofix_pr }}
         id: create_pull_request
         uses: peter-evans/create-pull-request@v4
         with:

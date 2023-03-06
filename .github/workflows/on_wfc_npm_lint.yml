@@ -35,22 +35,17 @@ jobs:
           cache-dependency-path: ${{ matrix.context }}/package-lock.json
       - 
         name: run lint script
-        if: ${{ ! inputs.autofix_pr }}
         working-directory: ${{ matrix.context }}
         run: |
           npm install
-          npm run lint
-      - 
-        name: run lint script
-        id: lint_autofix
-        if: ${{ inputs.autofix_pr }}
-        working-directory: ${{ matrix.context }}
-        run: |
-          npm install
-          npm run lint -- --fix
+          if [[ "${{ inputs.autofix_pr }}" = "true" ]]; then
+            npm run lint -- --fix
+          else
+            npm run lint
+          fi          
       - 
         name: create lint pr
-        if: failure() && steps.lint_autofix.outcome != 'success'
+        if: failure() && ${{ inputs.autofix_pr }}
         id: create_pull_request
         uses: peter-evans/create-pull-request@v4
         with:
