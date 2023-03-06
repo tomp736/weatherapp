@@ -45,7 +45,7 @@ jobs:
           fi         
       - 
         id: pr_vars
-        if: ${{ failure() }} && ${{ inputs.autofix_pr }}
+        if: ${{ failure() && inputs.autofix_pr }}
         run: |
           pr_title="${{ inputs.autofix_pr_branch }} ${{ matrix.context }} lint autofix pr"
           pr_branch=${{ inputs.autofix_pr_branch }}-${{ matrix.context }}-lint
@@ -54,7 +54,7 @@ jobs:
           echo "pr_branch=$pr_branch" >> $GITHUB_OUTPUT 
       - 
         name: create lint pr
-        if: ${{ failure() }} && ${{ inputs.autofix_pr }}
+        if: ${{ failure() && inputs.autofix_pr }}
         id: create_pull_request
         uses: peter-evans/create-pull-request@v4
         with:
