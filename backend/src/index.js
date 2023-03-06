@@ -22,7 +22,7 @@ const fetchWeather = async () => {
   return response ? response.json() : {};
 };
 
-router.get('/api/weather', async ctx, => {
+router.get('/api/weather', async ctx => {
   const weatherData = await fetchWeather();
 
   ctx.type = 'application/json; charset=utf-8';
