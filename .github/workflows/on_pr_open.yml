@@ -13,8 +13,14 @@ on:
 
 jobs:
 
+  # run eslint scripts
+  eslint:      
+    uses: ./.github/workflows/on_wfc_eslint.yml
+
   # run the docker_build workflow
   docker_build:
+    needs:
+      - eslint
 
     permissions:
       contents: read
