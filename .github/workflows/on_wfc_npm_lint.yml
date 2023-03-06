@@ -30,7 +30,7 @@ jobs:
           cache-dependency-path: ${{ matrix.context }}/package-lock.json
       - 
         name: run lint script
-        if: ! ${{ inputs.autofix_pr }}
+        if: ${{ ! inputs.autofix_pr }}
         working-directory: ${{ matrix.context }}
         run: |
           npm install
