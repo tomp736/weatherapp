@@ -50,7 +50,7 @@ jobs:
           npm run lint -- --fix
       - 
         name: create lint pr
-        if: failure() && ${{ inputs.autofix_pr }}
+        if: failure() && steps.lint_autofix.outcome != 'success'
         id: create_pull_request
         uses: peter-evans/create-pull-request@v4
         with:

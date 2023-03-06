@@ -79,6 +79,7 @@ jobs:
     needs:
       - prepare
       - eslint
+      - audit
 
     uses: ./.github/workflows/on_wfc_create_pr.yml
     with:
