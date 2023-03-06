@@ -1,0 +1,59 @@
+name: run lint script
+
+on: 
+  workflow_call:
+    inputs:
+      autofix_pr_branch:
+        type: string
+        description: 'autofix pr branch'
+        required: false
+        default: 'autofix'
+      autofix_pr:
+        type: boolean
+        description: 'autofix pr'
+        required: false
+        default: false
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix: 
+        context:
+          - frontend
+          - backend
+
+    steps:
+      - 
+        uses: actions/checkout@v3    
+      - 
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16.x'
+          cache: 'npm'
+          cache-dependency-path: ${{ matrix.context }}/package-lock.json
+      - 
+        name: run lint script
+        if: ${{ ! inputs.autofix_pr }}
+        working-directory: ${{ matrix.context }}
+        run: |
+          npm install
+          npm run lint
+      - 
+        name: run lint script
+        id: lint_autofix
+        if: ${{ inputs.autofix_pr }}
+        working-directory: ${{ matrix.context }}
+        run: |
+          npm install
+          npm run lint -- --fix
+      - 
+        name: create lint pr
+        if: failure() && steps.lint_autofix.outcome != 'success'
+        id: create_pull_request
+        uses: peter-evans/create-pull-request@v4
+        with:
+          title: ${{ inputs.autofix_pr_branch }}-${{ matrix.context }}-lint
+          token: ${{ secrets.WORKFLOW_TOKEN }}
+          branch: ${{ inputs.autofix_pr_branch }}-${{ matrix.context }}-lint
