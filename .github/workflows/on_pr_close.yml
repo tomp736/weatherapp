@@ -44,17 +44,26 @@ jobs:
           echo "next_version=$next_version" >> $GITHUB_OUTPUT
 
   # this job will only run if the PR has been merged
-  merge_job:
-  
+  tag:
     if: github.event.pull_request.merged == true
-
     needs: 
     - prepare
-
+    permissions:
+      contents: write
+      packages: write
+    uses: ./.github/workflows/on_wfc_create_tag.yml
+    with:
+      tag: ${{ needs.prepare.outputs.next_version }}
+    secrets: inherit
+    
+  # this job will only run if the PR has been merged
+  docker_build:
+    if: github.event.pull_request.merged == true
+    needs: 
+    - prepare
     permissions:
       contents: read
-      packages: write
-      
+      packages: write      
     uses: ./.github/workflows/on_wfc_docker_build.yml
     with:
       image_tag: ${{ needs.prepare.outputs.next_version }}
