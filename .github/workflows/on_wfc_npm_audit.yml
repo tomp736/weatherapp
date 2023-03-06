@@ -1,4 +1,4 @@
-name: run lint script
+name: run npm audit
 
 on: 
   workflow_call:
@@ -13,9 +13,15 @@ on:
         description: 'autofix pr'
         required: false
         default: false
+      autofix_breaking:
+        type: boolean
+        description: 'autofix breaking'
+        required: false
+        default: false
 
 jobs:
-  lint:
+  
+  audit:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -34,26 +40,36 @@ jobs:
           cache: 'npm'
           cache-dependency-path: ${{ matrix.context }}/package-lock.json
       - 
-        name: run lint script
+        name: run audit
         working-directory: ${{ matrix.context }}
         run: |
           npm install
           if [[ "${{ inputs.autofix_pr }}" = "true" ]]; then
-            npm run lint -- --fix
+            if [[ "${{ inputs.autofix_breaking }}" = "true" ]]; then
+              npm audit fix --force
+            else
+              npm audit fix
+            fi
           else
-            npm run lint
-          fi         
+            npm audit
+          fi
       - 
         id: pr_vars
         if: ${{ failure() && inputs.autofix_pr }}
         run: |
-          pr_title="${{ inputs.autofix_pr_branch }} ${{ matrix.context }} lint autofix pr"
-          pr_branch=${{ inputs.autofix_pr_branch }}-${{ matrix.context }}-lint
-          
+          pr_title="audit autofix pr"
+          pr_branch=${{ inputs.autofix_pr_branch }}-${{ matrix.context }}-audit
+
+          if [[ "${{ inputs.autofix_pr }}" = "true" ]]; then
+            if [[ "${{ inputs.autofix_breaking }}" = "true" ]]; then
+              pr_title="audit autofix pr (breaking)"
+            fi
+          fi
+
           echo "pr_title=$pr_title" >> $GITHUB_OUTPUT
-          echo "pr_branch=$pr_branch" >> $GITHUB_OUTPUT 
+          echo "pr_branch=$pr_branch" >> $GITHUB_OUTPUT
       - 
-        name: create lint pr
+        name: create audit pr
         if: ${{ failure() && inputs.autofix_pr }}
         id: create_pull_request
         uses: peter-evans/create-pull-request@v4
