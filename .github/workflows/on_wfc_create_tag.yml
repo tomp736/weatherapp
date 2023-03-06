@@ -3,9 +3,9 @@ name: create tag
 on:
   workflow_call:
     inputs:
-      version:
+      tag:
         type: string
-        description: 'version'
+        description: 'tag'
         required: true
 jobs:
   create_tag:
@@ -21,5 +21,5 @@ jobs:
           git config user.email github-actions@github.com          
       - 
         run: |      
-          git tag ${{ inputs.version }}
+          git tag ${{ inputs.tag }}
           git push -f origin --tags
