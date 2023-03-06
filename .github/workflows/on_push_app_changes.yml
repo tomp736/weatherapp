@@ -61,6 +61,7 @@ jobs:
     if: needs.prepare.outputs.pull_request_create == '1'
     needs:
       - prepare
+      - eslint
 
     uses: ./.github/workflows/on_wfc_create_pr.yml
     with:
