@@ -47,6 +47,13 @@ jobs:
           echo "create=$create" >> $GITHUB_OUTPUT
           echo "branch_source=$branch_source" >> $GITHUB_OUTPUT
           echo "branch_target=$branch_target" >> $GITHUB_OUTPUT
+  
+  # run eslint scripts
+  eslint:      
+    uses: ./.github/workflows/on_wfc_npm_lint.yml
+    with:
+      autofix_pr: true
+    secrets: inherit
 
   # create pr if upstream configured
   create_pull:
