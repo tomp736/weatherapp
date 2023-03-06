@@ -34,6 +34,7 @@ jobs:
         working-directory: ./${{ matrix.context }}
         run: |
           npm init @eslint/config -- --config ${{ steps.eslintrc.outputs.esconfig }} -y
+          npm install
       - 
         name: Run ESLint with recommended changes
         working-directory: ./${{ matrix.context }}
