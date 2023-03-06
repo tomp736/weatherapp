@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: dockerfile
+    ports:
+      - "8000:8000"
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: dockerfile
+    env_file:
+      - ~/.weatherapp/dev.env
+    ports:
+      - "9000:9000"
