@@ -29,21 +29,21 @@ jobs:
           cache-dependency-path: ${{ matrix.context }}/package-lock.json
       - 
         name: run lint script
-        if: inputs.autofix_pr == 'false'
+        if: ${{ inputs.autofix_pr }} == 'false'
         working-directory: ${{ matrix.context }}
         run: |
           npm install
           npm run lint
       - 
         name: run lint script
-        if: inputs.autofix_pr == 'true'
+        if: ${{ inputs.autofix_pr }} == 'true'
         working-directory: ${{ matrix.context }}
         run: |
           npm install
           npm run lint -- --fix
       - 
         name: create lint pr
-        if: inputs.autofix_pr == 'true'
+        if: ${{ inputs.autofix_pr }} == 'true'
         id: create_pull_request
         uses: peter-evans/create-pull-request@v4
         with:
