@@ -13,11 +13,6 @@ jobs:
         context:
           - frontend
           - backend
-        include:
-          - context: frontend
-            esconfig: airbnb
-          - context: backend
-            esconfig: standard
 
     steps:
       - 
@@ -29,7 +24,9 @@ jobs:
       - 
         name: Install dependencies
         working-directory: ./${{ matrix.context }}
-        run: npm init @eslint/config -- --config ${{ matrix.esconfig }}
+        run: |
+          esconfig=$(jq -r '.extends' .eslintrc)
+          npm init @eslint/config -- --config $esconfig
       - 
         name: Run ESLint with recommended changes
         working-directory: ./${{ matrix.context }}
