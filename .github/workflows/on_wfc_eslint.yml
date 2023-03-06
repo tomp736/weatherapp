@@ -25,7 +25,7 @@ jobs:
           cache-dependency-path: ${{ matrix.context }}/package-lock.json
       - 
         name: Run ESLint with recommended changes
-        run: npx eslint ./${{ matrix.context }} --fix      
+        run: npx eslint ./${{ matrix.context }}/src/*.js --fix      
       - 
         name: Create PR
         id: create_pull_request
