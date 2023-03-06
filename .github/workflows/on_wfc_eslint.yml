@@ -24,28 +24,25 @@ jobs:
       # Get config from eslintrc
       - 
         id: eslintrc
-        working-directory: ./${{ matrix.context }}
         run: |
-          esconfig=$(jq -r '.extends' .eslintrc)
+          esconfig=$(jq -r '.extends' ./${{ matrix.context }}.eslintrc)
           echo "Found $esconfig"
           echo "esconfig=$esconfig" >> $GITHUB_OUTPUT
       -
         name: Install dependencies
-        working-directory: ./${{ matrix.context }}
         run: |
           npm init @eslint/config -- --config ${{ steps.eslintrc.outputs.esconfig }} -y
           npm install
       - 
         name: Run ESLint with recommended changes
-        working-directory: ./${{ matrix.context }}
-        run: npx eslint . --fix      
+        run: npx eslint ./${{ matrix.context }} --fix      
       - 
         name: Create PR
         id: create_pull_request
         uses: peter-evans/create-pull-request@v4
         with:
           token: ${{ secrets.WORKFLOW_TOKEN }}
-          branch: eslint updates ${{ matrix.context }}
+          branch: pr-eslint-${{ matrix.context }}
           title: NPM Lint
           body: |
             - NPM Lint
