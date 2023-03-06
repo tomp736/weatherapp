@@ -28,7 +28,7 @@ jobs:
         working-directory: ${{ matrix.context }}
         run: |
           npm install
-          npx eslint ./${{ matrix.context }}/src/*.js --fix      
+          npx eslint ./src/*.js --fix      
       - 
         name: Create PR
         id: create_pull_request
