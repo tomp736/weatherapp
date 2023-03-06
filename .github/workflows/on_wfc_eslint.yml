@@ -20,13 +20,20 @@ jobs:
       - 
         uses: actions/setup-node@v3
         with:
-          node-version: '16.x'
+          node-version: '16.x'      
+      # Get config from eslintrc
       - 
-        name: Install dependencies
+        id: eslintrc
         working-directory: ./${{ matrix.context }}
         run: |
           esconfig=$(jq -r '.extends' .eslintrc)
-          npm init @eslint/config -- --config $esconfig
+          echo "Found $esconfig"
+          echo "esconfig=$esconfig" >> $GITHUB_OUTPUT
+      -
+        name: Install dependencies
+        working-directory: ./${{ matrix.context }}
+        run: |
+          npm init @eslint/config -- --config ${{ steps.eslintrc.outputs.esconfig }}
       - 
         name: Run ESLint with recommended changes
         working-directory: ./${{ matrix.context }}
