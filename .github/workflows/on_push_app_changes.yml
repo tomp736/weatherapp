@@ -51,6 +51,9 @@ jobs:
   
   # run eslint scripts
   eslint:      
+  
+    needs:
+      - prepare
     uses: ./.github/workflows/on_wfc_npm_lint.yml
     with:
       autofix_pr_branch: ${{ needs.prepare.outputs.pull_request_branch_source }}
