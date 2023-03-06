@@ -49,6 +49,6 @@ jobs:
         id: create_pull_request
         uses: peter-evans/create-pull-request@v4
         with:
-          title: lint-${{ matrix.context }}
+          title: ${{ matrix.context }}-lint
           token: ${{ secrets.WORKFLOW_TOKEN }}
-          branch: lint-${{ matrix.context }}
+          branch: ${{ matrix.context }}-lint
