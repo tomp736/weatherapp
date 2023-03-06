@@ -20,6 +20,7 @@ on:
         default: false
 
 jobs:
+  
   audit:
     runs-on: ubuntu-latest
     strategy:
@@ -53,11 +54,26 @@ jobs:
             npm audit
           fi
       - 
+        id: pr_vars
+        if: failure() && ${{ inputs.autofix_pr }}
+        run: |
+          pr_title="audit autofix pr"
+          pr_branch=${{ inputs.autofix_pr_branch }}-${{ matrix.context }}-audit
+
+          if [[ "${{ inputs.autofix_pr }}" = "true" ]]; then
+            if [[ "${{ inputs.autofix_breaking }}" = "true" ]]; then
+              pr_title="audit autofix pr (breaking)"
+            fi
+          fi
+
+          echo "pr_title=$pr_title" >> $GITHUB_OUTPUT
+          echo "pr_branch=$pr_branch" >> $GITHUB_OUTPUT
+      - 
         name: create audit pr
         if: failure() && ${{ inputs.autofix_pr }}
         id: create_pull_request
         uses: peter-evans/create-pull-request@v4
         with:
-          title: ${{ inputs.autofix_pr_branch }}-${{ matrix.context }}-audit
           token: ${{ secrets.WORKFLOW_TOKEN }}
-          branch: ${{ inputs.autofix_pr_branch }}-${{ matrix.context }}-audit
+          title: ${{ steps.pr_vars.outputs.pr_title }}
+          branch: ${{ steps.pr_vars.outputs.pr_branch }}

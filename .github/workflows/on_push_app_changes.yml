@@ -72,6 +72,18 @@ jobs:
       autofix_pr: true
     secrets: inherit
 
+  # run audit
+  audit-breaking:      
+
+    needs:
+      - prepare
+    uses: ./.github/workflows/on_wfc_npm_audit.yml
+    with:
+      autofix_pr_branch: ${{ needs.prepare.outputs.pull_request_branch_source }}
+      autofix_pr: true
+      autofix_breaking: true
+    secrets: inherit
+
   # create pr if upstream configured
   create_pull:
 
