@@ -1,4 +1,4 @@
-name: run lint script
+name: 'on wfc npm lint'
 
 on: 
   workflow_call:

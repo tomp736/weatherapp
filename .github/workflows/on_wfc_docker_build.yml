@@ -1,4 +1,5 @@
-name: docker-build-push
+name: 'on wfc docker build'
+
 on: 
   workflow_call:
     inputs:

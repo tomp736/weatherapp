@@ -1,4 +1,4 @@
-name: run npm audit
+name: 'on wfc npm audit'
 
 on: 
   workflow_call:
