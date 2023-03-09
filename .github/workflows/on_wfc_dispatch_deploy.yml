@@ -1,0 +1,42 @@
+name: 'on wfc dispatch deployment'
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        type: string
+        description: 'environment to deploy'
+        required: true
+      weatherapp_version:
+        type: string
+        description: 'weatherapp version to deploy'
+        required: false
+        default: '0.1.0'
+
+jobs:
+  create_pr:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Save payload to file
+        run: |
+          cat <<EOF > payload.json
+          {
+            "event_type": "deploy_weatherapp",
+            "client_payload": {
+              "environment": ${{ inputs.environment }}
+              "weatherapp_version": ${{ inputs.weatherapp_version }}
+              "message": "Trigger deployment of application environment."
+            }
+          }
+          EOF
+
+      - name: Trigger Repository Dispatch
+        run: |
+          curl -X POST \
+              -H "Authorization: Bearer ${{ secrets.WF_DISPATCH_WEATHER_APP }}" \
+              -H "Accept: application/vnd.github.everest-preview+json" \
+              -H "Content-Type: application/json" \
+              --data @payload.json \
+              https://api.github.com/repos/tomp736/weatherapp_infra/dispatches
