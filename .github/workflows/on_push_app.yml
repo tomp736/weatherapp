@@ -1,0 +1,43 @@
+name: 'on push'
+on: 
+  workflow_dispatch:    
+  push:
+    branches:
+      - '**'
+      - '!*-promotion'
+      - '!*-lint'
+      - '!*-audit'
+    paths:
+      - "backend/**"
+      - "frontend/**"
+
+jobs:
+
+  prepare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    outputs:
+      pull_request_branch_source: ${{ steps.pull_request.outputs.branch_source }}
+
+    steps:
+      - uses: actions/checkout@v3
+      
+      # Adds variables to github output for eslint job
+      # branch_source: { branch-name } that the pull request will be made for
+      - id: pull_request
+        run: |
+          create=0
+          branch_source="${GITHUB_REF#refs/heads/}"
+          echo "branch_source=$branch_source" >> $GITHUB_OUTPUT
+  
+  # run eslint scripts
+  eslint:      
+
+    needs:
+      - prepare
+    uses: ./.github/workflows/on_wfc_npm_lint.yml
+    with:
+      autofix_pr_branch: ${{ needs.prepare.outputs.pull_request_branch_source }}
+      autofix_pr: true
+    secrets: inherit
