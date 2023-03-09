@@ -1,4 +1,4 @@
-name: on pr close
+name: 'on pr close'
 
 on:
   pull_request:
