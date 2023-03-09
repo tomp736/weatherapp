@@ -54,3 +54,4 @@ jobs:
           cache-to: type=gha,mode=max
           tags: |
             ghcr.io/${{ github.repository }}/weatherapp_${{ matrix.context }}:${{ inputs.image_tag }}
+            ghcr.io/${{ github.repository }}/weatherapp_${{ matrix.context }}:latest
