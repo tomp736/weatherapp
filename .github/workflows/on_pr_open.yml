@@ -39,3 +39,14 @@ jobs:
     with:
       image_tag: ${{ github.event.pull_request.head.ref }}-${{ github.event.pull_request.number }}
     secrets: inherit
+
+  # promotion deployment
+  deploy-weatherapp:
+    needs:
+      - docker_build
+      
+    uses: ./.github/workflows/on_wfc_dispatch_deploy.yml
+    with:
+      environment: "${{ github.event.pull_request.head.ref }}"
+      weatherapp_version: "${{ github.event.pull_request.head.ref }}-${{ github.event.pull_request.number }}"
+    secrets: inherit
