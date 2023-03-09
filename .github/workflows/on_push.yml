@@ -1,4 +1,4 @@
-name: on push 
+name: 'on push'
 on: 
   workflow_dispatch:    
   push:
@@ -49,28 +49,6 @@ jobs:
           echo "create=$create" >> $GITHUB_OUTPUT
           echo "branch_source=$branch_source" >> $GITHUB_OUTPUT
           echo "branch_target=$branch_target" >> $GITHUB_OUTPUT
-  
-  # run eslint scripts
-  eslint:      
-
-    needs:
-      - prepare
-    uses: ./.github/workflows/on_wfc_npm_lint.yml
-    with:
-      autofix_pr_branch: ${{ needs.prepare.outputs.pull_request_branch_source }}
-      autofix_pr: true
-    secrets: inherit
-
-  # run audit
-  # audit:      
-
-  #   needs:
-  #     - prepare
-  #   uses: ./.github/workflows/on_wfc_npm_audit.yml
-  #   with:
-  #     autofix_pr_branch: ${{ needs.prepare.outputs.pull_request_branch_source }}
-  #     autofix_pr: true
-  #   secrets: inherit
 
   # create pr if upstream configured
   create_pull:
@@ -78,8 +56,6 @@ jobs:
     if: needs.prepare.outputs.pull_request_create == '1'
     needs:
       - prepare
-      - eslint
-      # - audit
 
     uses: ./.github/workflows/on_wfc_create_pr.yml
     with:

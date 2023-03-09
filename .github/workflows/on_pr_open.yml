@@ -1,4 +1,4 @@
-name: on pr open
+name: 'on pr open'
 
 # https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#pull_request
 on:
