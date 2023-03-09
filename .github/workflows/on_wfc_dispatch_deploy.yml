@@ -36,8 +36,8 @@ jobs:
           {
             "event_type": "deploy_weatherapp",
             "client_payload": {
-              "environment": "${{ inputs.environment }}"
-              "weatherapp_version": "${{ inputs.weatherapp_version }}"
+              "environment": "${{ inputs.environment }}",
+              "weatherapp_version": "${{ inputs.weatherapp_version }}",
               "message": "Trigger deployment of application environment."
             }
           }
