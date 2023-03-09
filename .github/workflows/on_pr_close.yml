@@ -7,6 +7,9 @@ on:
     branches:
     - dev
     - main
+    paths:
+      - "backend/**"
+      - "frontend/**"
 
 jobs:
   prepare:
@@ -43,7 +46,7 @@ jobs:
           echo "Updating version to $next_version"
           echo "next_version=$next_version" >> $GITHUB_OUTPUT
 
-  # this job will only run if the PR has been merged
+  # create tag for next version
   tag:
     if: github.event.pull_request.merged == true
     needs: 
@@ -56,7 +59,7 @@ jobs:
       tag: ${{ needs.prepare.outputs.next_version }}
     secrets: inherit
     
-  # this job will only run if the PR has been merged
+  # create image for next version
   docker_build:
     if: github.event.pull_request.merged == true
     needs: 
