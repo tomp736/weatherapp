@@ -25,7 +25,7 @@ on:
         default: '0.1.0'
 
 jobs:
-  create_pr:
+  deploy-weatherapp:
     runs-on: ubuntu-latest
     timeout-minutes: 5
 
@@ -36,8 +36,8 @@ jobs:
           {
             "event_type": "deploy_weatherapp",
             "client_payload": {
-              "environment": "${{ inputs.environment }}"
-              "weatherapp_version": "${{ inputs.weatherapp_version }}"
+              "environment": "${{ inputs.environment }}",
+              "weatherapp_version": "${{ inputs.weatherapp_version }}",
               "message": "Trigger deployment of application environment."
             }
           }
@@ -50,4 +50,4 @@ jobs:
               -H "Accept: application/vnd.github.everest-preview+json" \
               -H "Content-Type: application/json" \
               --data @payload.json \
-              https://api.github.com/repos/tomp736/weatherapp_infra/dispatches
+              https://api.github.com/repos/tomp736/weatherapp-infra/dispatches
