@@ -1,6 +1,17 @@
 name: 'on wfc dispatch deployment'
 
 on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: string
+        description: 'environment to deploy'
+        required: true
+      weatherapp_version:
+        type: string
+        description: 'weatherapp version to deploy'
+        required: false
+        default: '0.1.0'
   workflow_call:
     inputs:
       environment:
