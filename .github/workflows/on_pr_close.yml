@@ -71,3 +71,14 @@ jobs:
     with:
       image_tag: ${{ needs.prepare.outputs.next_version }}
     secrets: inherit
+    
+  # deploy next version
+  deploy:
+    if: github.event.pull_request.merged == true
+    needs: 
+    - docker_build    
+    uses: ./.github/workflows/on_wfc_dispatch_deploy.yml
+    with:
+      environment: "${{ github.event.pull_request.base.ref }}"
+      weatherapp_version: "${{ needs.prepare.outputs.next_version }}"
+    secrets: inherit
