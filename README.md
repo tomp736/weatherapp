@@ -10,7 +10,7 @@
 
 ## Docker Compose
 
-This docker compose files requires a dev.env file crated in `~/.weatherapp/dev.env` with api key defined.
+This docker compose files requires a dev.env file located in `~/.weatherapp/dev.env` with api key defined.
 
 ``` env
 APPID=<api key>
@@ -25,7 +25,7 @@ docker-compose -f docker-compose.yaml up
 ```
 ### docker-compose-dev.yml
 
-An additional **docker-compose-dev.yml** file also exists to enable local development using containers. 
+An additional **docker-compose-dev.yml** file also exists to enable local development using containers, it mounts the frontend and backend paths on your local host.
 
 ```sh
 docker-compose -f docker-compose-dev.yaml up
@@ -35,9 +35,7 @@ docker-compose -f docker-compose-dev.yaml up
 
 The weatherapp deployment is managed by the external repository [weatherapp-infra](https://github.com/tomp736/weatherapp-infra) project. When making changes in this repository, the application will be automatically deployed by issuing a repository dispatch using this [workflow file](on_wfc_dispatch_deploy.yml).
 
-|github event|branch|azure-url|frontend|backend|
-|---|---|---|---|---|
-|push|main|weatherapp-main-vm.westeurope.cloudapp.azure.com|:8000|:9000/api/weather|
-|pull request|main-promotion|weatherapp-main-promotion-vm.westeurope.cloudapp.azure.com|:8000|:9000/api/weather|
-|push|dev|weatherapp-dev-vm.westeurope.cloudapp.azure.com|:8000|:9000/api/weather|
-|pull request|dev-promotion|weatherapp-dev-promotion-vm.westeurope.cloudapp.azure.com|:8000|:9000/api/weather|
+|github event|branch|azure-url|
+|---|---|---|
+|push|main|[weatherapp-main-vm.westeurope.cloudapp.azure.com](weatherapp-main-vm.westeurope.cloudapp.azure.com)|
+|push|dev|[weatherapp-dev-vm.westeurope.cloudapp.azure.com](weatherapp-dev-vm.westeurope.cloudapp.azure.com)|
