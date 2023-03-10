@@ -37,5 +37,5 @@ The weatherapp deployment is managed by the external repository [weatherapp-infr
 
 |github event|branch|azure-url|
 |---|---|---|
-|push|main|[weatherapp-main-vm.westeurope.cloudapp.azure.com](weatherapp-main-vm.westeurope.cloudapp.azure.com)|
-|push|dev|[weatherapp-dev-vm.westeurope.cloudapp.azure.com](weatherapp-dev-vm.westeurope.cloudapp.azure.com)|
+|push|main|[http://weatherapp-main-vm.westeurope.cloudapp.azure.com](http://weatherapp-main-vm.westeurope.cloudapp.azure.com)|
+|push|dev|[http://weatherapp-dev-vm.westeurope.cloudapp.azure.com](http://weatherapp-dev-vm.westeurope.cloudapp.azure.com)|
