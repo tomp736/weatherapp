@@ -10,7 +10,7 @@
 
 ## Docker Compose
 
-This docker compose files requires a dev.env file crated in `~/.weatherapp/dev.env` with api key defined.
+This docker compose files requires a dev.env file located in `~/.weatherapp/dev.env` with api key defined.
 
 ``` env
 APPID=<api key>
