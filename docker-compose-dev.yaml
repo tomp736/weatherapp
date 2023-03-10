@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  frontend:
+    image: node:16
+    working_dir: /usr/src/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - backend
+    volumes:
+      - frontend-volume:/usr/src/app
+    command: sh -c 'npm install; npm start'
+
+  backend:
+    image: node:19
+    working_dir: /usr/src/app
+    env_file:
+      - ~/.weatherapp/dev.env
+    ports:
+      - "9000:9000"
+    volumes:
+      - backend-volume:/usr/src/app
+    command: sh -c 'npm install; npm start'
+
+volumes:
+  frontend-volume:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${PWD}/frontend
+  backend-volume:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${PWD}/backend

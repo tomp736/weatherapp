@@ -76,6 +76,7 @@ jobs:
   deploy:
     if: github.event.pull_request.merged == true
     needs: 
+    - prepare
     - docker_build    
     uses: ./.github/workflows/on_wfc_dispatch_deploy.yml
     with:
