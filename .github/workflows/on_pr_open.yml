@@ -40,13 +40,15 @@ jobs:
       image_tag: ${{ github.event.pull_request.head.ref }}-${{ github.event.pull_request.number }}
     secrets: inherit
 
+  # azure free has limits on public ips (3) 
+  # disabled to prevent resource exhaustion
   # promotion deployment
-  deploy-weatherapp:
-    needs:
-      - docker_build
+  # deploy-weatherapp:
+  #   needs:
+  #     - docker_build
       
-    uses: ./.github/workflows/on_wfc_dispatch_deploy.yml
-    with:
-      environment: "${{ github.event.pull_request.head.ref }}"
-      weatherapp_version: "${{ github.event.pull_request.head.ref }}-${{ github.event.pull_request.number }}"
-    secrets: inherit
+  #   uses: ./.github/workflows/on_wfc_dispatch_deploy.yml
+  #   with:
+  #     environment: "${{ github.event.pull_request.head.ref }}"
+  #     weatherapp_version: "${{ github.event.pull_request.head.ref }}-${{ github.event.pull_request.number }}"
+  #   secrets: inherit
